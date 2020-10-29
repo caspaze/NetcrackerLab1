@@ -10,6 +10,9 @@ public class User {
     private LocalDate birthDate;
     private Gender gender;
     private String passportSeries;
+    private String passportNumber;
+    public LocalDate currentDate;
+    private int age = Period.between(birthDate,currentDate).getYears();
 
     public int getUserId() {
         return userId;
@@ -67,7 +70,5 @@ public class User {
         this.age = age;
     }
 
-    private String passportNumber;
-    public LocalDate currentDate;
-    private int age = Period.between(birthDate,currentDate).getYears();
+
 }
