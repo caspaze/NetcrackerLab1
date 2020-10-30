@@ -7,21 +7,20 @@ import Contracts.Contract;
  */
 public class ContractRepository {
     /**
-     * Массив типа Contract, хрянящий в себе контракты
-     *
+     * An array of the Contract type that contains contracts
      */
     private Contract[] repository;
     /**
-     * Поле, хранящее количество добавленных в репозиторий контрактов
+     * Field that stores the number of contracts added to the repository
      */
     private int contractsQuantity;
     /**
-     * Переменная, определяющая на сколько увеличится репозиторий, когда он заполнится
+     * Variable that determines how much the repository will grow when it is full
      */
-    private int delta=20;
+    private static final int delta=20;
 
     /**
-     * Конструктор класса - Создает объект типа ContractRepository и инициализирует поле Contract[] repository
+     * Constructor-creates a ContractRepository object and initializes the repository field
      */
     public ContractRepository()
     {
@@ -29,8 +28,8 @@ public class ContractRepository {
     }
 
     /**
-     * Функция добавления нового контракта в репозиторий
-     * @param contract Контракт, который будет добавлен в репозиторий. Класс контракта должен являться наследником абстрактного класса Contract
+     * Function for adding a new contract to the repository
+     * @param contract The contract that will be added to the repository. The contract class must be a descendant of the abstract Contract class
      */
     public void addContract(Contract contract)
     {
@@ -42,8 +41,8 @@ public class ContractRepository {
     }
 
     /**
-     * Функция, изменяющая размер текущего репозитория. Вызывается, когда при добавлении очередного контракта репозиторий уже заполнен. Увеличивает размер репозитория на delta
-     * @return Возвращает репозиторий с увеличенным размером.
+     * A function that changes the size of the current repository. Called when the repository is already full when adding a new contract. Increases the repository size by delta
+     * @return Returns the repository with the increased size.
      */
     private Contract[] resizeRepository()
     {
@@ -56,9 +55,9 @@ public class ContractRepository {
     }
 
     /**
-     * Функция удаления контракта из репозитория
-     * @param contractId Значение id контракта, который необходимо удалить
-     * @return Возвращает true, если контракт был успешно удален, false - если контракта с переданным значением id в репозитории не существует.
+     * Function for deleting a contract from the repository
+     * @param contractId Value of the contract id to delete
+     * @return Returns true if the contract was successfully deleted, false if the contract with the passed id value does not exist in the repository.
      */
     public boolean deleteContract(int contractId)
     {
@@ -82,9 +81,9 @@ public class ContractRepository {
     }
 
     /**
-     * Функция получения контракта из репозитория
-     * @param id Id контракта, который необходимо получить
-     * @return Возвращает контракт, если контракт с переданным значением id был найден, null - если такого контракта в репозитории не существует.
+     * Function for getting a contract from the repository
+     * @param id Id of the contract to get
+     * @return Returns a contract if a contract with the passed id value was found, null-if such contract does not exist in the repository.
      */
     public Contract getContractOnId(int id)
     {

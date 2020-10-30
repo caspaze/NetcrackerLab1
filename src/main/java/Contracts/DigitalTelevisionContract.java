@@ -1,13 +1,21 @@
 package Contracts;
 
 public class DigitalTelevisionContract extends Contract{
-    private CanalPackages canalPackage;
-
-    public CanalPackages getCanalPackage() {
-        return canalPackage;
+    /**
+     * Property - package of channels
+     */
+    private ChannelPackages channelsPackage;
+    /**
+     * @return current value of the channelsPackage
+     */
+    public ChannelPackages getChannelsPackage() {
+        return channelsPackage;
     }
-
-    public void setCanalPackage(CanalPackages canalPackage) {
-        this.canalPackage = canalPackage;
+    /**
+     * Changes the channelsPackage value to the passed value
+     * @param channelsPackage - new value of the channelsPackage
+     */
+    public void setChannelsPackage(ChannelPackages channelsPackage) {
+        this.channelsPackage = channelsPackage;
     }
 }
