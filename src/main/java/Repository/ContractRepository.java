@@ -9,7 +9,13 @@ public class ContractRepository {
     /**
      * An array of the Contract type that contains contracts
      */
-    private Contract[] repository;
+    private Contract[] repository = new Contract[delta];
+
+    public Contract[] getRepository() {
+
+        return this.repository;
+    }
+
     /**
      * Field that stores the number of contracts added to the repository
      */
@@ -24,7 +30,11 @@ public class ContractRepository {
      */
     public ContractRepository()
     {
-        repository = new Contract[delta];
+
+    }
+    public int getContractsQuantity()
+    {
+        return contractsQuantity;
     }
 
     /**
@@ -97,5 +107,13 @@ public class ContractRepository {
         }
         return null;
     }
+    public void showContracts()
+    {
+        for(int i=0;i<contractsQuantity;i++)
+        {
+            System.out.println(repository[i].getContractId());
+        }
+    }
+
 
 }

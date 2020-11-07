@@ -2,6 +2,7 @@ package Contracts;
 
 import Users.User;
 
+import java.util.Comparator;
 import java.util.Date;
 /**
  * @author Vadim Novoselov
@@ -93,6 +94,5 @@ public abstract class Contract {
     public void setContractOwner(User contractOwner) {
         this.contractOwner = contractOwner;
     }
-
 
 }
