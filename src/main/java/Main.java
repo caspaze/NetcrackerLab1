@@ -1,16 +1,3 @@
-import Contracts.Contract;
-import Contracts.DigitalTelevisionContract;
-import Contracts.InternetContract;
-import Contracts.MobileConnectionContract;
-import Repository.ContractRepository;
-import Repository.Sort.BubbleSorter;
-import Repository.Сomparators;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Date;
-
 public class Main {
     public static void main(String[] args) {
         /*InternetContract contract1 = new InternetContract();
