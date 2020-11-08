@@ -41,8 +41,8 @@ public class ContractRepository {
      * Function for adding a new contract to the repository
      * @param contract The contract that will be added to the repository. The contract class must be a descendant of the abstract Contract class
      */
-    public void addContract(Contract contract)
-    {
+    public void addContract(Contract contract){
+
         if (contractsQuantity >= repository.length) {
             repository = resizeRepository();
         }
@@ -54,11 +54,11 @@ public class ContractRepository {
      * A function that changes the size of the current repository. Called when the repository is already full when adding a new contract. Increases the repository size by delta
      * @return Returns the repository with the increased size.
      */
-    private Contract[] resizeRepository()
-    {
+    private Contract[] resizeRepository(){
+
         Contract[] newRepository = new Contract[contractsQuantity+delta];
-        for(int i=0;i<repository.length;i++)
-        {
+        for(int i=0;i<repository.length;i++){
+
             newRepository[i]=repository[i];
         }
         return newRepository;
@@ -69,20 +69,20 @@ public class ContractRepository {
      * @param contractId Value of the contract id to delete
      * @return Returns true if the contract was successfully deleted, false if the contract with the passed id value does not exist in the repository.
      */
-    public boolean deleteContract(int contractId)
-    {
+    public boolean deleteContract(int contractId){
+
         int i=0;
-        for(i=0;i<contractsQuantity;i++)
-        {
-            if(repository[i].getContractId()==contractId)
-            {
+        for(i=0;i<contractsQuantity;i++){
+
+            if(repository[i].getContractId()==contractId){
+
                 break;
             }
         }
         if(i==contractsQuantity)
             return false;
-        for(int j=i;j< repository.length-1;j++)
-        {
+        for(int j=i;j< repository.length-1;j++){
+
             repository[j]=repository[j+1];
 
         }
@@ -95,13 +95,13 @@ public class ContractRepository {
      * @param id Id of the contract to get
      * @return Returns a contract if a contract with the passed id value was found, null-if such contract does not exist in the repository.
      */
-    public Contract getContractOnId(int id)
-    {
+    public Contract getContractOnId(int id){
+
         Contract contract;
-        for(int i =0;i<contractsQuantity;i++)
-        {
-            if(repository[i].getContractId()==id)
-            {
+        for(int i =0;i<contractsQuantity;i++){
+
+            if(repository[i].getContractId()==id){
+
                 return repository[i];
             }
         }

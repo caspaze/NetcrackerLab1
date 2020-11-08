@@ -1,6 +1,17 @@
+import Contracts.DigitalTelevisionContract;
+import Contracts.InternetContract;
+import Contracts.MobileConnectionContract;
+import Repository.ContractRepository;
+import Repository.Search.Searcher;
+import Repository.Sort.BubbleSorter;
+import Repository.Sort.Comparators;
+import Repository.Sort.MergeSorter;
+
+import java.util.Date;
+
 public class Main {
     public static void main(String[] args) {
-        /*InternetContract contract1 = new InternetContract();
+        InternetContract contract1 = new InternetContract();
         DigitalTelevisionContract contract2  = new DigitalTelevisionContract();
         MobileConnectionContract contract3 = new MobileConnectionContract();
         InternetContract contract4 = new InternetContract();
@@ -14,6 +25,12 @@ public class Main {
         contract3.setContractStartDate(new Date(2020,11,1));
         contract4.setContractStartDate(new Date(2020,11,14));
 
+        contract1.setContractNumber(4);
+        contract1.setContractNumber(3);
+        contract1.setContractNumber(2);
+        contract1.setContractNumber(1);
+
+
         ContractRepository repository = new ContractRepository();
         repository.addContract(contract1);
         repository.addContract(contract2);
@@ -22,8 +39,15 @@ public class Main {
 
 
         BubbleSorter bubbleSorter = new BubbleSorter();
-        bubbleSorter.sort(repository, Сomparators.contractIdComp);
-        repository.showContracts();*/
+        MergeSorter mergeSorter = new MergeSorter();
+        //bubbleSorter.sort(repository, Comparators.contractStartDate);
+        mergeSorter.sort(repository,Comparators.contractStartDate);
+
+        repository.showContracts();
+
+        /*Searcher searcher = new Searcher();
+        ContractRepository rep1 = Searcher.searchById(repository,3);
+        rep1.showContracts();*/
 
     }
 }
