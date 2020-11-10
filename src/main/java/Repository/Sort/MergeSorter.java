@@ -27,8 +27,6 @@ public class MergeSorter implements ISorter{
         for (int i = mid; i < n; i++) {
             r[i - mid]= a[i];
         }
-        System.out.println("l: " + Arrays.toString(l));
-        System.out.println("r: " + Arrays.toString(r));
         mergeSort(l, mid,comp);
         mergeSort(r, n - mid, comp);
 
@@ -37,7 +35,7 @@ public class MergeSorter implements ISorter{
     private void merge(Contract[]a, Contract[]l, Contract[]r, int left, int right,Comparator<Contract> comp) {
         int i = 0, j = 0, k = 0;
         while (i < left && j < right) {
-            if (comp.compare(l[i],r[i])<0){
+            if (comp.compare(l[i],r[i])<0){ //using comparator
                 a[k++]= l[i++];
             }
             else {

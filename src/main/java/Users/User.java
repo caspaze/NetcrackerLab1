@@ -3,6 +3,7 @@ package Users;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Date;
+import java.util.Objects;
 
 public class User {
     /**
@@ -130,5 +131,23 @@ public class User {
         this.userAge = userAge;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userId == user.userId &&
+                userAge == user.userAge &&
+                fio.equals(user.fio) &&
+                birthDate.equals(user.birthDate) &&
+                gender == user.gender &&
+                passportSeries.equals(user.passportSeries) &&
+                passportNumber.equals(user.passportNumber) &&
+                currentDate.equals(user.currentDate);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, fio, birthDate, gender, passportSeries, passportNumber, currentDate, userAge);
+    }
 }
