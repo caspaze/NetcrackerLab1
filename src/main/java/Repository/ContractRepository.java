@@ -107,13 +107,4 @@ public class ContractRepository {
         }
         return null;
     }
-    public void showContracts()
-    {
-        for(int i=0;i<contractsQuantity;i++)
-        {
-            System.out.println(repository[i].getContractId());
-        }
-    }
-
-
 }

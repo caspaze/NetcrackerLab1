@@ -2,6 +2,7 @@ package Contracts;
 
 import Users.User;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Date;
 /**
@@ -15,11 +16,11 @@ public abstract class Contract {
     /**
      * Property - start date of the contract
      */
-    private Date contractStartDate;
+    private LocalDate contractStartDate;
     /**
      * Property - end date of the contract
      */
-    private Date contractEndDate;
+    private LocalDate contractEndDate;
     /**
      * Property - number of the contract
      */
@@ -45,27 +46,27 @@ public abstract class Contract {
     /**
      * @return current value of the contractStartDate
      */
-    public Date getContractStartDate() {
+    public LocalDate getContractStartDate() {
         return contractStartDate;
     }
     /**
      * Changes the contractStartDate value to the passed value
      * @param contractStartDate - new value of the contractStartDate
      */
-    public void setContractStartDate(Date contractStartDate) {
+    public void setContractStartDate(LocalDate contractStartDate) {
         this.contractStartDate = contractStartDate;
     }
     /**
      * @return current value of the contractEndDate
      */
-    public Date getContractEndDate() {
+    public LocalDate getContractEndDate() {
         return contractEndDate;
     }
     /**
      * Changes the contractEndDate value to the passed value
      * @param contractEndDate - new value of the contractEndDate
      */
-    public void setContractEndDate(Date contractEndDate) {
+    public void setContractEndDate(LocalDate contractEndDate) {
         this.contractEndDate = contractEndDate;
     }
     /**

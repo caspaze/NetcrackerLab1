@@ -6,5 +6,5 @@ package Contracts;
 public enum ChannelPackages {
     MinimumChannels,
     AverageChannels,
-    AllIncludedChannels,
+    MaximumChannels,
 }

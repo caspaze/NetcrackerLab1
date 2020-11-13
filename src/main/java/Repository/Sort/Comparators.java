@@ -9,11 +9,11 @@ public class Comparators {
     public static Comparator<Contract> contractStartDate = new Comparator<Contract>() {
         @Override
         public int compare(Contract o1, Contract o2) {
-            if(o1.getContractStartDate().getTime() > o2.getContractStartDate().getTime()){
+            if(o1.getContractStartDate().isBefore(o2.getContractStartDate())){
 
                 return 1;
             }
-            if(o1.getContractStartDate().getTime() < o2.getContractStartDate().getTime()){
+            if(o1.getContractStartDate().isAfter(o2.getContractStartDate())){
 
                 return -1;
             }
@@ -23,11 +23,11 @@ public class Comparators {
     public static Comparator<Contract> contractEndDate = new Comparator<Contract>() {
         @Override
         public int compare(Contract o1, Contract o2) {
-            if(o1.getContractEndDate().getTime() < o2.getContractEndDate().getTime()){
+            if(o1.getContractEndDate().isBefore(o2.getContractEndDate())){
 
                 return 1;
             }
-            if(o1.getContractEndDate().getTime() > o2.getContractEndDate().getTime()){
+            if(o1.getContractEndDate().isAfter(o2.getContractEndDate())){
 
                 return -1;
             }
