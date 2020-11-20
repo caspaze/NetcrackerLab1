@@ -2,6 +2,9 @@ package Repository;
 
 import Contracts.Contract;
 
+import java.util.Comparator;
+import java.util.function.Predicate;
+
 /**
  * @author Vadim Novoselov
  */
@@ -10,11 +13,6 @@ public class ContractRepository {
      * An array of the Contract type that contains contracts
      */
     private Contract[] repository = new Contract[delta];
-
-    public Contract[] getRepository() {
-
-        return this.repository;
-    }
 
     /**
      * Field that stores the number of contracts added to the repository
@@ -115,5 +113,80 @@ public class ContractRepository {
         }
     }
 
+    public ContractRepository search(Predicate<Contract> pred){
+        ContractRepository foundObjRepository = new ContractRepository();
+        for(int i=0;i< contractsQuantity;i++){
+            if(pred.test(repository[i])){
+                foundObjRepository.addContract(repository[i]);
+            }
+        }
+        return foundObjRepository;
+    }
+
+    public void bubbleSort(Comparator<Contract> comp){
+        for (int i=0;i<contractsQuantity-1;i++){
+            for(int j=0;j<contractsQuantity-1;j++){
+                if(comp.compare(repository[j],repository[j+1]) > 0){
+                    Contract t = repository[j];
+                    repository[j] = repository[j+1];
+                    repository[j+1] = t;
+                }
+            }
+        }
+    }
+
+    public void mergeSort(Comparator<Contract> comp){
+        sort(repository,0,contractsQuantity-1,comp);
+    }
+    private void sort(Contract[] array, int left, int right,Comparator<Contract> comp){
+        if (right <= left) return;
+        int mid = (left+right)/2;
+        sort(array, left, mid,comp);
+        sort(array, mid+1, right,comp);
+        merge(array, left, mid, right,comp);
+    }
+    private void merge(Contract[] array, int left, int mid, int right,Comparator<Contract> comp){
+        int lengthLeft = mid - left + 1;
+        int lengthRight = right - mid;
+
+        // создаем временные подмассивы
+        Contract leftArray[] = new Contract [lengthLeft];
+        Contract rightArray[] = new Contract [lengthRight];
+
+        // копируем отсортированные массивы во временные
+        for (int i = 0; i < lengthLeft; i++)
+            leftArray[i] = array[left+i];
+        for (int i = 0; i < lengthRight; i++)
+            rightArray[i] = array[mid+i+1];
+
+        // итераторы содержат текущий индекс временного подмассива
+        int leftIndex = 0;
+        int rightIndex = 0;
+
+        // копируем из leftArray и rightArray обратно в массив
+        for (int i = left; i < right + 1; i++) {
+            // если остаются нескопированные элементы в R и L, копируем минимальный
+            if (leftIndex < lengthLeft && rightIndex < lengthRight) {
+                if (comp.compare(leftArray[leftIndex],rightArray[rightIndex])<0) {
+                    array[i] = leftArray[leftIndex];
+                    leftIndex++;
+                }
+                else {
+                    array[i] = rightArray[rightIndex];
+                    rightIndex++;
+                }
+            }
+            // если все элементы были скопированы из rightArray, скопировать остальные из leftArray
+            else if (leftIndex < lengthLeft) {
+                array[i] = leftArray[leftIndex];
+                leftIndex++;
+            }
+            // если все элементы были скопированы из leftArray, скопировать остальные из rightArray
+            else if (rightIndex < lengthRight) {
+                array[i] = rightArray[rightIndex];
+                rightIndex++;
+            }
+        }
+    }
 
 }

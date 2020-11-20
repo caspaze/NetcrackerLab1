@@ -1,4 +1,4 @@
-package Repository.Sort;
+package Repository;
 
 import Contracts.Contract;
 

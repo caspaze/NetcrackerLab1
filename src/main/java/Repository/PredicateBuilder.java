@@ -1,4 +1,4 @@
-package Repository.Search;
+package Repository;
 
 import Contracts.Contract;
 import Users.User;
