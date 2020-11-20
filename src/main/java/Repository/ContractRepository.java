@@ -105,14 +105,12 @@ public class ContractRepository {
         }
         return null;
     }
-    public void showContracts()
-    {
-        for(int i=0;i<contractsQuantity;i++)
-        {
-            System.out.println(repository[i].getContractId());
-        }
-    }
 
+    /**
+     * Функция поиска в репозитории по передаваемому предикату
+     * @param pred - предикат по которому будет происходить поиск
+     * @return объект ContractRepository с найденными объектами
+     */
     public ContractRepository search(Predicate<Contract> pred){
         ContractRepository foundObjRepository = new ContractRepository();
         for(int i=0;i< contractsQuantity;i++){
@@ -123,6 +121,10 @@ public class ContractRepository {
         return foundObjRepository;
     }
 
+    /**
+     * Функция сортировки пузырьком. Временная сложность - O(n^2)
+     * @param comp компаратор, по которму будет происходить сортировка
+     */
     public void bubbleSort(Comparator<Contract> comp){
         for (int i=0;i<contractsQuantity-1;i++){
             for(int j=0;j<contractsQuantity-1;j++){
@@ -135,9 +137,21 @@ public class ContractRepository {
         }
     }
 
+    /**
+     * Функция сортировки слиянием. Временная сложность - O(n*log(n))
+     * @param comp компаратор, по которму будет происходить сортировка
+     */
     public void mergeSort(Comparator<Contract> comp){
         sort(repository,0,contractsQuantity-1,comp);
     }
+
+    /**
+     *
+     * @param array сортируемый массив
+     * @param left левая граница массива
+     * @param right правая граница массива
+     * @param comp компаратор, по которму будет происходить сортировка
+     */
     private void sort(Contract[] array, int left, int right,Comparator<Contract> comp){
         if (right <= left) return;
         int mid = (left+right)/2;
@@ -145,6 +159,15 @@ public class ContractRepository {
         sort(array, mid+1, right,comp);
         merge(array, left, mid, right,comp);
     }
+
+    /**
+     * Функция слияния
+     * @param array сортируемый массив
+     * @param left левая граница массива
+     * @param mid середина массива
+     * @param right правая граница массива
+     * @param comp компаратор, по которму будет происходить сортировка
+     */
     private void merge(Contract[] array, int left, int mid, int right,Comparator<Contract> comp){
         int lengthLeft = mid - left + 1;
         int lengthRight = right - mid;

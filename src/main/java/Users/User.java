@@ -17,19 +17,19 @@ public class User {
     /**
      * Property - users date of birth
      */
-    private LocalDate birthDate;
+    private LocalDate birthDate = LocalDate.of(1,1,1);
     /**
      * Property - gender of the user
      */
-    private Gender gender;
+    private String gender;
     /**
      * Property - series of the passport of the user
      */
-    private String passportSeries;
+    private int passportSeries;
     /**
      * Property - number of the passport of the user
      */
-    private String passportNumber;
+    private int passportNumber;
     /**
      * Property - current date
      */
@@ -81,40 +81,40 @@ public class User {
     /**
      * @return current value of the gender
      */
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
     /**
      * Сhanges the gender value to the passed value
      * @param gender - new value of the gender
      */
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
     /**
      * @return current value of the passportSeries
      */
-    public String getPassportSeries() {
+    public int getPassportSeries() {
         return passportSeries;
     }
     /**
      * Сhanges the passportSeries value to the passed value
      * @param passportSeries - new value of the passportSeries
      */
-    public void setPassportSeries(String passportSeries) {
+    public void setPassportSeries(int passportSeries) {
         this.passportSeries = passportSeries;
     }
     /**
      * @return current value of the passportNumber
      */
-    public String getPassportNumber() {
+    public int getPassportNumber() {
         return passportNumber;
     }
     /**
      * Сhanges the passportNumber value to the passed value
      * @param passportNumber - new value of the passportNumber
      */
-    public void setPassportNumber(String passportNumber) {
+    public void setPassportNumber(int passportNumber) {
         this.passportNumber = passportNumber;
     }
     /**
@@ -131,18 +131,28 @@ public class User {
         this.userAge = userAge;
     }
 
+    public User(int userId, String fio, LocalDate birthDate, String gender, int passportSeries, int passportNumber, int userAge) {
+        this.userId = userId;
+        this.fio = fio;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.passportSeries = passportSeries;
+        this.passportNumber = passportNumber;
+        this.userAge = userAge;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return userId == user.userId &&
+                passportSeries == user.passportSeries &&
+                passportNumber == user.passportNumber &&
                 userAge == user.userAge &&
                 fio.equals(user.fio) &&
                 birthDate.equals(user.birthDate) &&
-                gender == user.gender &&
-                passportSeries.equals(user.passportSeries) &&
-                passportNumber.equals(user.passportNumber) &&
+                gender.equals(user.gender) &&
                 currentDate.equals(user.currentDate);
     }
 
