@@ -29,6 +29,18 @@ public abstract class Contract {
      * Property - owner of the contract
      */
     private User contractOwner;
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "contractId=" + contractId +
+                ", contractStartDate=" + contractStartDate +
+                ", contractEndDate=" + contractEndDate +
+                ", contractNumber=" + contractNumber +
+                ", contractOwner=" + contractOwner +
+                '}';
+    }
+
     /**
      * @return current value of the contractId
      */
@@ -43,6 +55,20 @@ public abstract class Contract {
     public void setContractId(int contractId) {
         this.contractId = contractId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contract contract = (Contract) o;
+        return contractId == contract.contractId &&
+                contractNumber == contract.contractNumber &&
+                contractStartDate.equals(contract.contractStartDate) &&
+                contractEndDate.equals(contract.contractEndDate) &&
+                contractOwner.equals(contract.contractOwner);
+    }
+
+
     /**
      * @return current value of the contractStartDate
      */

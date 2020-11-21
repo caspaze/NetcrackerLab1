@@ -1,3 +1,4 @@
+
 package Users;
 
 import java.time.LocalDate;
@@ -33,12 +34,12 @@ public class User {
     /**
      * Property - current date
      */
-    public LocalDate currentDate;
+    public LocalDate currentDate = LocalDate.now();
     /**
      * Property - age of the user. Calculates as number of years between users date of birth and current date
      * @see Period#getYears()
      */
-    private int userAge = Period.between(birthDate,LocalDate.now()).getYears();
+    private int userAge = Period.between(birthDate,currentDate).getYears();
     /**
      * @return current value of the userId
      */
@@ -129,6 +130,30 @@ public class User {
      */
     public void setAge(int userAge) {
         this.userAge = userAge;
+    }
+
+    public User(int userId, String fio, LocalDate birthDate, String gender, int passportSeries, int passportNumber, int userAge) {
+        this.userId = userId;
+        this.fio = fio;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.passportSeries = passportSeries;
+        this.passportNumber = passportNumber;
+        this.userAge = userAge;
+    }
+    public User(){};
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", fio='" + fio + '\'' +
+                ", birthDate=" + birthDate +
+                ", gender='" + gender + '\'' +
+                ", passportSeries=" + passportSeries +
+                ", passportNumber=" + passportNumber +
+                ", userAge=" + userAge +
+                '}';
     }
 
     @Override
