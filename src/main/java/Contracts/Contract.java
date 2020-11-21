@@ -29,6 +29,18 @@ public abstract class Contract {
      * Property - owner of the contract
      */
     private User contractOwner;
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "contractId=" + contractId +
+                ", contractStartDate=" + contractStartDate +
+                ", contractEndDate=" + contractEndDate +
+                ", contractNumber=" + contractNumber +
+                ", contractOwner=" + contractOwner +
+                '}';
+    }
+
     /**
      * @return current value of the contractId
      */

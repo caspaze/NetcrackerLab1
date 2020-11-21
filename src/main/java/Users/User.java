@@ -33,7 +33,7 @@ public class User {
     /**
      * Property - current date
      */
-    public LocalDate currentDate;
+    public LocalDate currentDate = LocalDate.now();
     /**
      * Property - age of the user. Calculates as number of years between users date of birth and current date
      * @see Period#getYears()
@@ -139,6 +139,20 @@ public class User {
         this.passportSeries = passportSeries;
         this.passportNumber = passportNumber;
         this.userAge = userAge;
+    }
+    public User(){};
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", fio='" + fio + '\'' +
+                ", birthDate=" + birthDate +
+                ", gender='" + gender + '\'' +
+                ", passportSeries=" + passportSeries +
+                ", passportNumber=" + passportNumber +
+                ", userAge=" + userAge +
+                '}';
     }
 
     @Override

@@ -1,5 +1,3 @@
-package Test;
-
 import Contracts.Contract;
 import Contracts.DigitalTelevisionContract;
 import Contracts.InternetContract;
@@ -12,6 +10,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -132,5 +132,20 @@ public class ContractRepositoryTest {
         }
         Assert.assertTrue(passed);
     }
+    @Test(expected = FileNotFoundException.class)
+    public void testContractDownloaderFNFException() throws IOException {
+        testRepository.downloadContract(" ");
+    }
+    @Test
+    public void testContractDownloader(){
+        InternetContract contract = new InternetContract();
+        User user = new User();
+        user.setFio("Ivanov Ivan Ivanovich");
+        contract.setContractOwner(user);
+        testRepository.addContract(contract);
+       Assert.assertTrue(9==testRepository.getContractsQuantity());
+
+    }
+
 
 }
