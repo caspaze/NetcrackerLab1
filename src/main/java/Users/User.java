@@ -39,9 +39,25 @@ public class User {
      * @see Period#getYears()
      */
     private int userAge = Period.between(birthDate,LocalDate.now()).getYears();
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", fio='" + fio + '\'' +
+                ", birthDate=" + birthDate +
+                ", gender='" + gender + '\'' +
+                ", passportSeries=" + passportSeries +
+                ", passportNumber=" + passportNumber +
+                ", currentDate=" + currentDate +
+                ", userAge=" + userAge +
+                '}';
+    }
+
     /**
      * @return current value of the userId
      */
+
     public int getUserId() {
         return userId;
     }

@@ -3,7 +3,6 @@ import Contracts.DigitalTelevisionContract;
 import Contracts.InternetContract;
 import Contracts.MobileConnectionContract;
 import Repository.ContractRepository;
-import Repository.Download.ContractDownloader;
 import Users.User;
 
 import java.io.IOException;
@@ -13,14 +12,12 @@ import java.time.Period;
 import java.util.Arrays;
 
 public class Main {
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws IOException {
         ContractRepository repository = new ContractRepository();
-        String fileName = "src/main/resources/data.csv";
-        ContractDownloader downloader = new ContractDownloader();
-        downloader.downloadContract(repository,fileName);
-        Contract[] arr = repository.getRepository();
-        for(int i =0;i< repository.getContractsQuantity();i++){
-            System.out.println(arr[i].getContractOwner().getFio());
-        }
+        String file = "src/main/resources/data.csv";
+        repository.downloadContract(file);
+        System.out.println(repository.getContractsQuantity());
+        repository.show();
     }
 }
+

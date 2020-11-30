@@ -1,6 +1,14 @@
 package Repository;
 
-import Contracts.Contract;
+import Contracts.*;
+import Users.User;
+import au.com.bytecode.opencsv.CSVReader;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.function.Predicate;
 
 /**
  * @author Vadim Novoselov
@@ -11,11 +19,6 @@ public class ContractRepository {
      */
     private Contract[] repository = new Contract[delta];
 
-    public Contract[] getRepository() {
-
-        return this.repository;
-    }
-
     /**
      * Field that stores the number of contracts added to the repository
      */
@@ -24,6 +27,9 @@ public class ContractRepository {
      * Variable that determines how much the repository will grow when it is full
      */
     private static final int delta=20;
+
+    private BubbleSorter bubbleSorter;
+    private MergeSorter mergeSorter;
 
     /**
      * Constructor-creates a ContractRepository object and initializes the repository field
@@ -107,4 +113,144 @@ public class ContractRepository {
         }
         return null;
     }
+
+    /**
+     * Функция поиска в репозитории по передаваемому предикату
+     * @param pred - предикат по которому будет происходить поиск
+     * @return объект ContractRepository с найденными объектами
+     */
+    public ContractRepository search(Predicate<Contract> pred){
+        ContractRepository foundObjRepository = new ContractRepository();
+        for(int i=0;i< contractsQuantity;i++){
+            if(pred.test(repository[i])){
+                foundObjRepository.addContract(repository[i]);
+            }
+        }
+        return foundObjRepository;
+    }
+
+    public void bubbleSort(Comparator<Contract> comp){
+        bubbleSorter = new BubbleSorter(repository,contractsQuantity);
+        bubbleSorter.sort(comp);
+    }
+
+    /**
+     * Функция сортировки слиянием. Временная сложность - O(n*log(n))
+     * @param comp компаратор, по которму будет происходить сортировка
+     */
+    public void mergeSort(Comparator<Contract> comp){
+        mergeSorter = new MergeSorter(repository,contractsQuantity);
+        mergeSorter.sort(comp);
+    }
+
+    /**
+     * Функция загрузчик контрактов из csv файла. Не добавляет контракт, если контракт этого типа и с таким же владельцем уже существует в репозитории.
+     * @param file Путь к файлу с данными
+     * @return true - все контракты были успешно добавлены. false - были найдены дубиликаты
+     * @throws IOException
+     */
+    public boolean downloadContract(String file) throws IOException {
+        CSVReader reader = new CSVReader(new FileReader(file), ',' , '"' , 0);
+        boolean allSuccessfullyAdded = true;
+        String[] nextLine;
+        while ((nextLine = reader.readNext()) != null) {
+            if (nextLine != null) {
+                LocalDate startDate = LocalDate.parse(nextLine[0]);
+                LocalDate endDate = LocalDate.parse(nextLine[1]);
+                String name = nextLine[2];
+                String gender = nextLine[3];
+                LocalDate birthDate = LocalDate.parse(nextLine[4]);
+                int passportSeries = Integer.parseInt(nextLine[5]);
+                int passportNumber = Integer.parseInt(nextLine[6]);
+                String contractType = nextLine[7];
+                User user = new User();
+                user.setFio(name);
+                user.setBirthDate(birthDate);
+                user.setGender(gender);
+                user.setPassportSeries(passportSeries);
+                user.setPassportNumber(passportNumber);
+
+                switch(contractType){
+                    case "DigitalTelevisionContract":{
+                        DigitalTelevisionContract contract = new DigitalTelevisionContract();
+                        contract.setContractStartDate(startDate);
+                        contract.setContractEndDate(endDate);
+                        contract.setContractOwner(user);
+                        switch(nextLine[8]){
+                            case "Minimum Channels":{
+                                contract.setChannelsPackage(ChannelPackages.MinimumChannels);
+                                break;
+                            }
+                            case "Average Channels":{
+                                contract.setChannelsPackage(ChannelPackages.AverageChannels);
+                                break;
+                            }
+                            case "Maximum Channels":{
+                                contract.setChannelsPackage(ChannelPackages.MaximumChannels);
+                                break;
+                            }
+                        }
+                        if(!isContractExist(contract)){
+                            addContract(contract);
+                        }
+                        break;
+                    }
+                    case "InternetContract":{
+                        InternetContract contract = new InternetContract();
+                        contract.setContractStartDate(startDate);
+                        contract.setContractEndDate(endDate);
+                        contract.setContractOwner(user);
+                        contract.setConnectionSpeed(Double.parseDouble(nextLine[8]));
+
+                        if(!isContractExist(contract)){
+                            addContract(contract);
+                        }
+                        break;
+                    }
+                    case "MobileConnectionContract":{
+                        MobileConnectionContract contract = new MobileConnectionContract();
+                        contract.setContractStartDate(startDate);
+                        contract.setContractEndDate(endDate);
+                        contract.setContractOwner(user);
+
+                        contract.setMinutesQuantity(Integer.parseInt(nextLine[8]));
+                        contract.setSMSQuantity(Integer.parseInt(nextLine[9]));
+                        contract.setGbInternetQuantity(Integer.parseInt(nextLine[10]));
+
+                        if(!isContractExist(contract)){
+                            addContract(contract);
+                        }
+                        break;
+                    }
+                    default:{
+                        allSuccessfullyAdded = false;
+                    }
+                }
+            }
+        }
+        return allSuccessfullyAdded;
+    }
+
+    /**
+     * Функция проверки существования контракта в репозитории по имени владельца и типу контракта
+     * @param contract Контракт, который будет искаться в репозитории
+     * @return true - переданный контракт был найден. false - не был найден.
+     */
+    private boolean isContractExist(Contract contract){
+        for(int i =0; i< contractsQuantity;i++){
+            if(repository[i].getContractOwner().getFio().equals(contract.getContractOwner().getFio()) &&
+                    repository[i].getClass().getSimpleName().equals(contract.getClass().getSimpleName())){
+                return true;
+            }
+        }
+        return false;
+    }
+    public void show()
+    {
+        for(int i=0;i<contractsQuantity;i++){
+            System.out.println(repository[i].toString());
+
+        }
+    }
+
 }
