@@ -1,7 +1,4 @@
-import Contracts.Contract;
-import Contracts.DigitalTelevisionContract;
-import Contracts.InternetContract;
-import Contracts.MobileConnectionContract;
+import Contracts.*;
 import Repository.ContractRepository;
 import Users.User;
 
@@ -16,7 +13,6 @@ public class Main {
         ContractRepository repository = new ContractRepository();
         String file = "src/main/resources/data.csv";
         repository.downloadContract(file);
-        System.out.println(repository.getContractsQuantity());
         repository.show();
     }
 }

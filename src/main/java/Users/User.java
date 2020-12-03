@@ -17,7 +17,7 @@ public class User {
     /**
      * Property - users date of birth
      */
-    private LocalDate birthDate = LocalDate.of(1,1,1);
+    private LocalDate birthDate = LocalDate.now();
     /**
      * Property - gender of the user
      */
@@ -92,7 +92,9 @@ public class User {
      * @param birthDate - new value of the birthDate
      */
     public void setBirthDate(LocalDate birthDate) {
+
         this.birthDate = birthDate;
+        userAge = Period.between(birthDate,LocalDate.now()).getYears();
     }
     /**
      * @return current value of the gender

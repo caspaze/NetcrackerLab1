@@ -1,11 +1,10 @@
-package Repository;
+package Repository.sort;
 
 import Contracts.Contract;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 
-public class BubbleSorter implements ISorter{
+public class BubbleSorter implements ISorter {
     public Contract[] repository;
     public int contractsQuantity;
     public BubbleSorter(Contract[] repository, int contractsQuantity){

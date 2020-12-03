@@ -1,13 +1,30 @@
 package Repository;
 
 import Contracts.*;
+import Repository.Validate.*;
+import Repository.Validate.ContractNumberValidator;
+import Repository.Validate.EndDateValidator;
+import Repository.Validate.StartDateValidator;
+import Repository.Validate.UserValidator;
+import Repository.Validate.ValidateInternetContract.ConnectionSpeedValidator;
+import Repository.Validate.ValidateInternetContract.InternetContractValidator;
+import Repository.Validate.ValidateMobileConnectionContract.GbInternetValidator;
+import Repository.Validate.ValidateMobileConnectionContract.MinutesQuantityValidator;
+import Repository.Validate.ValidateMobileConnectionContract.MobileConnectionValidator;
+import Repository.Validate.ValidateMobileConnectionContract.SMSQuantityValidator;
+import Repository.Validate.ValidateTelevisionContract.ChannelPackagesValidator;
+import Repository.Validate.ValidateTelevisionContract.TelevisionContractValidator;
+import Repository.sort.ISorter;
+import Repository.sort.MergeSorter;
 import Users.User;
 import au.com.bytecode.opencsv.CSVReader;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.function.Predicate;
 
 /**
@@ -28,9 +45,7 @@ public class ContractRepository {
      */
     private static final int delta=20;
 
-    private BubbleSorter bubbleSorter;
-    private MergeSorter mergeSorter;
-
+    private ISorter sorter;
     /**
      * Constructor-creates a ContractRepository object and initializes the repository field
      */
@@ -129,18 +144,15 @@ public class ContractRepository {
         return foundObjRepository;
     }
 
-    public void bubbleSort(Comparator<Contract> comp){
-        bubbleSorter = new BubbleSorter(repository,contractsQuantity);
-        bubbleSorter.sort(comp);
-    }
 
     /**
      * Функция сортировки слиянием. Временная сложность - O(n*log(n))
      * @param comp компаратор, по которму будет происходить сортировка
      */
-    public void mergeSort(Comparator<Contract> comp){
-        mergeSorter = new MergeSorter(repository,contractsQuantity);
-        mergeSorter.sort(comp);
+    public void sort(Comparator<Contract> comp){
+        MergeSorter mergeSorter = new MergeSorter(repository,contractsQuantity);
+        sorter = (ISorter) mergeSorter;
+        sorter.sort(comp);
     }
 
     /**
@@ -170,6 +182,11 @@ public class ContractRepository {
                 user.setPassportSeries(passportSeries);
                 user.setPassportNumber(passportNumber);
 
+                List<Validator> validators = new ArrayList<>();
+                validators.add(new StartDateValidator());
+                validators.add(new EndDateValidator());
+                validators.add(new ContractNumberValidator());
+                validators.add(new UserValidator());
                 switch(contractType){
                     case "DigitalTelevisionContract":{
                         DigitalTelevisionContract contract = new DigitalTelevisionContract();
@@ -177,20 +194,38 @@ public class ContractRepository {
                         contract.setContractEndDate(endDate);
                         contract.setContractOwner(user);
                         switch(nextLine[8]){
-                            case "Minimum Channels":{
+                            case "MinimumChannels":{
                                 contract.setChannelsPackage(ChannelPackages.MinimumChannels);
                                 break;
                             }
-                            case "Average Channels":{
+                            case "AverageChannels":{
                                 contract.setChannelsPackage(ChannelPackages.AverageChannels);
                                 break;
                             }
-                            case "Maximum Channels":{
+                            case "MaximumChannels":{
                                 contract.setChannelsPackage(ChannelPackages.MaximumChannels);
                                 break;
                             }
                         }
-                        if(!isContractExist(contract)){
+                        List<TelevisionContractValidator> televisionValidators= new ArrayList<>();
+                        televisionValidators.add(new ChannelPackagesValidator());
+                        boolean validated = true;
+                        for(Validator v:validators){
+                            Message message = v.validate(contract);
+                            System.out.println(message.toString());
+                            if(message.getStatus().equals(Status.ERROR)){
+                                validated = false;
+                            }
+                        }
+                        for(TelevisionContractValidator v:televisionValidators){
+                            Message message = v.validate(contract);
+                            System.out.println(message.toString());
+                            if(message.getStatus().equals(Status.ERROR)){
+                                validated = false;
+                            }
+                        }
+
+                        if(!isContractExist(contract) && validated){
                             addContract(contract);
                         }
                         break;
@@ -202,7 +237,25 @@ public class ContractRepository {
                         contract.setContractOwner(user);
                         contract.setConnectionSpeed(Double.parseDouble(nextLine[8]));
 
-                        if(!isContractExist(contract)){
+                        List<InternetContractValidator> internetValidators = new ArrayList<>();
+                        internetValidators.add(new ConnectionSpeedValidator());
+                        boolean validated = true;
+                        for(Validator v:validators){
+                            Message message = v.validate(contract);
+                            System.out.println(message.toString());
+                            if(message.getStatus().equals(Status.ERROR)){
+                                validated = false;
+                            }
+                        }
+                        for(InternetContractValidator v:internetValidators){
+                            Message message = v.validate(contract);
+                            System.out.println(message.toString());
+                            if(message.getStatus().equals(Status.ERROR)){
+                                validated = false;
+                            }
+                        }
+
+                        if(!isContractExist(contract) && validated){
                             addContract(contract);
                         }
                         break;
@@ -217,7 +270,27 @@ public class ContractRepository {
                         contract.setSMSQuantity(Integer.parseInt(nextLine[9]));
                         contract.setGbInternetQuantity(Integer.parseInt(nextLine[10]));
 
-                        if(!isContractExist(contract)){
+                        List<MobileConnectionValidator> mobileConnectionValidators = new ArrayList<>();
+                        mobileConnectionValidators.add(new MinutesQuantityValidator());
+                        mobileConnectionValidators.add(new SMSQuantityValidator());
+                        mobileConnectionValidators.add(new GbInternetValidator());
+                        boolean validated = true;
+                        for(Validator v:validators){
+                            Message message = v.validate(contract);
+                            System.out.println(message.toString());
+                            if(message.getStatus().equals(Status.ERROR)){
+                                validated = false;
+                            }
+                        }
+                        for(MobileConnectionValidator v:mobileConnectionValidators){
+                            Message message = v.validate(contract);
+                            System.out.println(message.toString());
+                            if(message.getStatus().equals(Status.ERROR)){
+                                validated = false;
+                            }
+                        }
+
+                        if(!isContractExist(contract) && validated){
                             addContract(contract);
                         }
                         break;
